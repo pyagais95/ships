@@ -45,230 +45,230 @@ function place () {
 
 	while (count < 4){
 
-		var py = Math.floor(Math.random()*9)+1
 		var px = Math.floor(Math.random()*9)+1
+		var py = Math.floor(Math.random()*9)+1
 		var check = true
 		var placed = false
-		console.log("py = " + py  + "px = " + px)
+		console.log("px = " + px  + "py = " + py)
 		var dir = Math.round(Math.random())
 		console.log(dir)
-		if(dir == 0 && (py + 3) < 10){
-			for(let i = 0; i < 5; i++){
-				if(matrix[py+i][px].type == "ship"){
-					check == false
+		if(dir == 0 && (px + 3) < 10){
+			for(let i = 0; i < 6; i++){
+				if(matrix[(px-1) + i][py].type == "ship"||matrix[(px-1) + i][py-1].type == "ship"||matrix[(px-1) + i][py+1].type == "ship"){
+					check = false
 				}
 			}
 
 		}
-		if (dir == 0 && (py + 3) >=10){
-			for(let i = 0; i < 5; i++){
-				if(matrix[py-i][px].type == "ship"){
-					check == false
+		if (dir == 0 && (px + 3) >=10){
+			for(let i = 0; i < 6; i++){
+				if(matrix[(px+1)-i][py].type == "ship" || matrix[(px+1)-i][py-1].type == "ship"||matrix[(px+1)-i][py+1].type == "ship"){
+					check = false
 				}
 			}
 		}
-		if(dir == 1 && (px + 3) < 10){
-			for(let i = 0; i < 5; i++){
-				if(matrix[py][px+i].type == "ship"){
-					check == false
+		if(dir == 1 && (py + 3) < 10){
+			for(let i = 0; i < 6; i++){
+				if(matrix[px][(py-1)+i].type == "ship"||matrix[px-1][(py-1)+i].type == "ship"||matrix[px+1][(py-1)+i].type == "ship"){
+					check = false
 				}
 			}
 		}
-		if (dir == 1 && (px + 3) >= 10)
-			for(let i = 0; i < 5; i++){
-				if(matrix[py][px-i].type == "ship"){
-					check == false
+		if (dir == 1 && (py + 3) >= 10)
+			for(let i = 0; i < 6; i++){
+				if(matrix[px][(py+1)-i].type == "ship"||matrix[px-1][(py+1)-i].type == "ship"||matrix[px+1][(py+1)-i].type == "ship"){
+					check = false
 				} 
 			}
 
 			console.log(check)
 
-		if(dir == 0 && (py + 3) < 10 && px != 10 &&  check == true) {
+		if(dir == 0 && (px + 3) < 10 && py != 10 &&  check == true) {
 
-			matrix[py][px].type = "ship"
-			matrix[py][px+1].type = "area"
-			matrix[py][px-1].type = "area"
-			matrix[py+1][px].type = "ship"
-			matrix[py+1][px+1].type = "area"
-			matrix[py+1][px-1].type = "area"
-			matrix[py+2][px].type = "ship"
-			matrix[py+2][px+1].type = "area"
-			matrix[py+2][px-1].type = "area"
-			matrix[py+3][px].type = "ship"
-			matrix[py+3][px+1].type = "area"
-			matrix[py+3][px-1].type = "area"
-			matrix[py+4][px].type = "area"
-			matrix[py+4][px-1].type = "area"
-			matrix[py+4][px+1].type = "area"
-			matrix[py-1][px].type = "area"
-			matrix[py-1][px+1].type = "area"
-			matrix[py-1][px-1].type = "area"
+			matrix[px][py].type = "ship"
+			matrix[px][py+1].type = "area"
+			matrix[px][py-1].type = "area"
+			matrix[px+1][py].type = "ship"
+			matrix[px+1][py+1].type = "area"
+			matrix[px+1][py-1].type = "area"
+			matrix[px+2][py].type = "ship"
+			matrix[px+2][py+1].type = "area"
+			matrix[px+2][py-1].type = "area"
+			matrix[px+3][py].type = "ship"
+			matrix[px+3][py+1].type = "area"
+			matrix[px+3][py-1].type = "area"
+			matrix[px+4][py].type = "area"
+			matrix[px+4][py-1].type = "area"
+			matrix[px+4][py+1].type = "area"
+			matrix[px-1][py].type = "area"
+			matrix[px-1][py+1].type = "area"
+			matrix[px-1][py-1].type = "area"
 			placed = true
 
 		}
 
-		if(dir == 0 && (py + 3) > 10 && py != 10 && check == true){
+		if(dir == 0 && (px + 3) > 10 && px != 10 && check == true){
 
-			matrix[py][px].type = "ship"
-			matrix[py][px+1].type = "area"
-			matrix[py][px-1].type = "area"
-			matrix[py-1][px].type = "ship"
-			matrix[py-1][px+1].type = "area"
-			matrix[py-1][px-1].type = "area"
-			matrix[py-2][px].type = "ship"
-			matrix[py-2][px+1].type = "area"
-			matrix[py-2][px-1].type = "area"
-			matrix[py-3][px].type = "ship"
-			matrix[py-3][px+1].type = "area"
-			matrix[py-3][px-1].type = "area"
-			matrix[py-4][px].type = "area"
-			matrix[py-4][px-1].type = "area"
-			matrix[py-4][px+1].type = "area"
-			matrix[py+1][px].type = "area"
-			matrix[py+1][px+1].type = "area"
-			matrix[py+1][px-1].type = "area"
+			matrix[px][py].type = "ship"
+			matrix[px][py+1].type = "area"
+			matrix[px][py-1].type = "area"
+			matrix[px-1][py].type = "ship"
+			matrix[px-1][py+1].type = "area"
+			matrix[px-1][py-1].type = "area"
+			matrix[px-2][py].type = "ship"
+			matrix[px-2][py+1].type = "area"
+			matrix[px-2][py-1].type = "area"
+			matrix[px-3][py].type = "ship"
+			matrix[px-3][py+1].type = "area"
+			matrix[px-3][py-1].type = "area"
+			matrix[px-4][py].type = "area"
+			matrix[px-4][py-1].type = "area"
+			matrix[px-4][py+1].type = "area"
+			matrix[px+1][py].type = "area"
+			matrix[px+1][py+1].type = "area"
+			matrix[px+1][py-1].type = "area"
 			placed = true
 
 		}
 
-		if(dir == 1 && (px + 3) > 10 && px != 10 && check == true){
-			matrix[py][px].type = "ship"
-			matrix[py-1][px].type = "area"
-			matrix[py+1][px].type = "area"
-			matrix[py][px-1].type = "ship"
-			matrix[py-1][px-1].type = "area"
-			matrix[py+1][px-1].type = "area"
-			matrix[py][px-2].type = "ship"
-			matrix[py-1][px-2].type = "area"
-			matrix[py+1][px-2].type = "area"
-			matrix[py][px-3].type = "ship"
-			matrix[py-1][px-3].type = "area"
-			matrix[py+1][px-3].type = "area"
-			matrix[py][px-4].type = "area"
-			matrix[py+1][px-4].type = "area"
-			matrix[py+1][px-4].type = "area"
-			matrix[py][px+1].type = "area"
-			matrix[py-1][px+1].type = "area"
-			matrix[py+1][px+1].type = "area"
+		if(dir == 1 && (py + 3) > 10 && py != 10 && check == true){
+			matrix[px][py].type = "ship"
+			matrix[px-1][py].type = "area"
+			matrix[px+1][py].type = "area"
+			matrix[px][py-1].type = "ship"
+			matrix[px-1][py-1].type = "area"
+			matrix[px+1][py-1].type = "area"
+			matrix[px][py-2].type = "ship"
+			matrix[px-1][py-2].type = "area"
+			matrix[px+1][py-2].type = "area"
+			matrix[px][py-3].type = "ship"
+			matrix[px-1][py-3].type = "area"
+			matrix[px+1][py-3].type = "area"
+			matrix[px][py-4].type = "area"
+			matrix[px+1][py-4].type = "area"
+			matrix[px+1][py-4].type = "area"
+			matrix[px][py+1].type = "area"
+			matrix[px-1][py+1].type = "area"
+			matrix[px+1][py+1].type = "area"
 			placed = true
 
 		}
 
-		if(dir == 1 && (px + 3) < 10 && py != 10 && check == true) {
-			matrix[py][px].type = "ship"
-			matrix[py-1][px].type = "area"
-			matrix[py+1][px].type = "area"
-			matrix[py][px+1].type = "ship"
-			matrix[py-1][px+1].type = "area"
-			matrix[py+1][px+1].type = "area"
-			matrix[py][px+2].type = "ship"
-			matrix[py-1][px+2].type = "area"
-			matrix[py+1][px+2].type = "area"
-			matrix[py][px+3].type = "ship"
-			matrix[py-1][px+3].type = "area"
-			matrix[py+1][px+3].type = "area"
-			matrix[py][px+4].type = "area"
-			matrix[py+1][px+4].type = "area"
-			matrix[py-1][px+4].type = "area"
-			matrix[py][px-1].type = "area"
-			matrix[py+1][px-1].type = "area"
-			matrix[py-1][px-1].type = "area"
+		if(dir == 1 && (py + 3) < 10 && px != 10 && check == true) {
+			matrix[px][py].type = "ship"
+			matrix[px-1][py].type = "area"
+			matrix[px+1][py].type = "area"
+			matrix[px][py+1].type = "ship"
+			matrix[px-1][py+1].type = "area"
+			matrix[px+1][py+1].type = "area"
+			matrix[px][py+2].type = "ship"
+			matrix[px-1][py+2].type = "area"
+			matrix[px+1][py+2].type = "area"
+			matrix[px][py+3].type = "ship"
+			matrix[px-1][py+3].type = "area"
+			matrix[px+1][py+3].type = "area"
+			matrix[px][py+4].type = "area"
+			matrix[px+1][py+4].type = "area"
+			matrix[px-1][py+4].type = "area"
+			matrix[px][py-1].type = "area"
+			matrix[px+1][py-1].type = "area"
+			matrix[px-1][py-1].type = "area"
 			placed = true
 
 		}
 
-		if(dir == 0 && py == 10 && px == 1 && check == true){
+		if(dir == 0 && px == 10 && py == 1 && check == true){
 
-			matrix[py][px].type = "ship"
-			matrix[py][px+1].type = "area"
-			matrix[py-1][px].type = "ship"
-			matrix[py-1][px+1].type = "area"
-			matrix[py-2][px].type = "ship"
-			matrix[py-2][px+1].type = "area"
-			matrix[py-3][px].type = "ship"
-			matrix[py-3][px+1].type = "area"
-			matrix[py-4][px+1].type = "area"
-			matrix[py-4][px].type = "area"
+			matrix[px][py].type = "ship"
+			matrix[px][py+1].type = "area"
+			matrix[px-1][py].type = "ship"
+			matrix[px-1][py+1].type = "area"
+			matrix[px-2][py].type = "ship"
+			matrix[px-2][py+1].type = "area"
+			matrix[px-3][py].type = "ship"
+			matrix[px-3][py+1].type = "area"
+			matrix[px-4][py+1].type = "area"
+			matrix[px-4][py].type = "area"
 			placed = true
 
 		}
 
-		if(dir == 1 && py == 10 && px == 1 && check == true){
+		if(dir == 1 && px == 10 && py == 1 && check == true){
 
-			matrix[py][px].type = "ship"
-			matrix[py-1][px].type = "area"
-			matrix[py][px+1].type = "ship"
-			matrix[py-1][px+1].type = "area"
-			matrix[py][px+2].type = "ship"
-			matrix[py-1][px+2].type = "area"
-			matrix[py][px+3].type = "ship"
-			matrix[py-1][px+3].type = "area"
-			matrix[py][px+4].type = "area"
-			matrix[py-1][px+4].type = "area"
+			matrix[px][py].type = "ship"
+			matrix[px-1][py].type = "area"
+			matrix[px][py+1].type = "ship"
+			matrix[px-1][py+1].type = "area"
+			matrix[px][py+2].type = "ship"
+			matrix[px-1][py+2].type = "area"
+			matrix[px][py+3].type = "ship"
+			matrix[px-1][py+3].type = "area"
+			matrix[px][py+4].type = "area"
+			matrix[px-1][py+4].type = "area"
 			placed = true
 
 		}
 
-		if(dir == 0 && py == 10 && px == 10 && check == true){
+		if(dir == 0 && px == 10 && py == 10 && check == true){
 
-			matrix[py][px].type = "ship"
-			matrix[py][px-1].type = "area"
-			matrix[py-1][px].type = "ship"
-			matrix[py-1][px-1].type = "area"
-			matrix[py-2][px].type = "ship"
-			matrix[py-2][px-1].type = "area"
-			matrix[py-3][px].type = "ship"
-			matrix[py-3][px-1].type = "area"
-			matrix[py-4][px-1].type = "area"
-			matrix[py-4][px].type = "area"
+			matrix[px][py].type = "ship"
+			matrix[px][py-1].type = "area"
+			matrix[px-1][py].type = "ship"
+			matrix[px-1][py-1].type = "area"
+			matrix[px-2][py].type = "ship"
+			matrix[px-2][py-1].type = "area"
+			matrix[px-3][py].type = "ship"
+			matrix[px-3][py-1].type = "area"
+			matrix[px-4][py-1].type = "area"
+			matrix[px-4][py].type = "area"
 			placed = true
 
 		}
 
-		if(dir == 1 && py == 10 && px == 10 && check == true){
+		if(dir == 1 && px == 10 && py == 10 && check == true){
 
-			matrix[py][px].type = "ship"
-			matrix[py-1][px].type = "area"
-			matrix[py][px-1].type = "ship"
-			matrix[py-1][px-1].type = "area"
-			matrix[py][px-2].type = "ship"
-			matrix[py-1][px-2].type = "area"
-			matrix[py][px-3].type = "ship"
-			matrix[py-1][px-3].type = "area"
-			matrix[py][px-4].type = "area"
-			matrix[py-1][px-4].type = "area"
+			matrix[px][py].type = "ship"
+			matrix[px-1][py].type = "area"
+			matrix[px][py-1].type = "ship"
+			matrix[px-1][py-1].type = "area"
+			matrix[px][py-2].type = "ship"
+			matrix[px-1][py-2].type = "area"
+			matrix[px][py-3].type = "ship"
+			matrix[px-1][py-3].type = "area"
+			matrix[px][py-4].type = "area"
+			matrix[px-1][py-4].type = "area"
 			placed = true
 
 		}
 
-		if(dir == 0 && py == 1 && px == 10 && check == true){
+		if(dir == 0 && px == 1 && py == 10 && check == true){
 
-			matrix[py][px].type = "ship"
-			matrix[py][px-1].type = "area"
-			matrix[py+1][px].type = "ship"
-			matrix[py+1][px-1].type = "area"
-			matrix[py+2][px].type = "ship"
-			matrix[py+2][px-1].type = "area"
-			matrix[py+3][px].type = "ship"
-			matrix[py+3][px-1].type = "area"
-			matrix[py+4][px-1].type = "area"
-			matrix[py+4][px].type = "area"
+			matrix[px][py].type = "ship"
+			matrix[px][py-1].type = "area"
+			matrix[px+1][py].type = "ship"
+			matrix[px+1][py-1].type = "area"
+			matrix[px+2][py].type = "ship"
+			matrix[px+2][py-1].type = "area"
+			matrix[px+3][py].type = "ship"
+			matrix[px+3][py-1].type = "area"
+			matrix[px+4][py-1].type = "area"
+			matrix[px+4][py].type = "area"
 			placed = true
 
 		}
 
-		if(dir == 1 && py == 1 && px == 10 && check == true){
+		if(dir == 1 && px == 1 && py == 10 && check == true){
 
-			matrix[py][px].type = "ship"
-			matrix[py+1][px].type = "area"
-			matrix[py][px-1].type = "ship"
-			matrix[py+1][px-1].type = "area"
-			matrix[py][px-2].type = "ship"
-			matrix[py+1][px-2].type = "area"
-			matrix[py][px-3].type = "ship"
-			matrix[py+1][px-3].type = "area"
-			matrix[py][px-4].type = "area"
-			matrix[py+1][px-4].type = "area"
+			matrix[px][py].type = "ship"
+			matrix[px+1][py].type = "area"
+			matrix[px][py-1].type = "ship"
+			matrix[px+1][py-1].type = "area"
+			matrix[px][py-2].type = "ship"
+			matrix[px+1][py-2].type = "area"
+			matrix[px][py-3].type = "ship"
+			matrix[px+1][py-3].type = "area"
+			matrix[px][py-4].type = "area"
+			matrix[px+1][py-4].type = "area"
 			placed = true
 
 		}
