@@ -24,713 +24,731 @@ class Ship  {
   }
 }
 
-
 var ships =[]
+
 function mtx (){
 
-var matrix = []
+	var matrix = []
 
-for (let i = 0; i < 11; i++){
-	var arr = []
-	for(let j = 0; j < 11; j++){
-		let cell = new Cell()
-		cell.posx = j;
-		cell.posy = i;
-		arr.push(cell)
-	}
-	matrix.push(arr)
-}
-
-for (let i = 0; i < matrix.length; i++){
-	matrix[i][0] = i;
-}
-
-for (let i = 0; i < matrix.length; i++){
-	matrix[0][i] = i;
-}
-
-var count 
-function place (size) {
-var px = Math.floor(Math.random()*10)+1
-var py = Math.floor(Math.random()*10)+1
-var check = true
-var placed = false
-var dir = Math.round(Math.random())
-
-if(dir === 0){
-	if(px + size < 10){
-		if(px != 1 && py !=10 && py != 1){
-			for(let i = 0; i < size+2; i++){
-				if(matrix[(px-1)+i][py].type == "ship"||matrix[(px-1) + i][py-1].type == "ship"||matrix[(px-1) + i][py+1].type == "ship"){
-					check = false
-				}
-			}
+	for (let i = 0; i < 11; i++){
+		var arr = []
+		for(let j = 0; j < 11; j++){
+			let cell = new Cell()
+			cell.posx = j;
+			cell.posy = i;
+			arr.push(cell)
 		}
-		if(px != 1 && py == 10){
-			for(let i = 0; i < size+2; i++){
-				if(matrix[(px-1) + i][py].type == "ship"||matrix[(px-1) + i][py-1].type == "ship"){
-					check = false
-				}
-			}
-		}
-		if(px != 1 && py == 1){
-			for(let i = 0; i < size+2; i++){
-				if(matrix[(px-1) + i][py].type == "ship"||matrix[(px-1) + i][py+1].type == "ship"){
-					check = false
-				}
-			}
-		}
-	}
-	if(px + size === 10){
-		if(px != 1 && py !=10 && py != 1){
-			for(let i = 0; i < size+2; i++){
-				if(matrix[(px-1)+i][py].type == "ship"||matrix[(px-1)+i][py-1].type == "ship"||matrix[(px-1)+i][py+1].type == "ship"){
-					check = false
-				}
-			}
-		}
-		if(px != 1 && py == 10){
-			for(let i = 0; i < size+2; i++){
-				if(matrix[(px-1)+i][py].type == "ship"||matrix[(px-1)+i][py-1].type == "ship"){
-					check = false
-				}
-			}
-		}
-		if(px != 1 && py == 1){
-			for(let i = 0; i < size+1; i++){
-				if(matrix[(px-1) + i][py].type == "ship"||matrix[(px-1) + i][py+1].type == "ship"){
-					check = false
-				}
-			}
-		}
-	}
-	if(px + size > 10){
-		if(px != 10 && py != 10 && py != 1){
-			for(let i = 0; i < size+2; i++){
-				if(matrix[(px+1)-i][py].type == "ship" || matrix[(px+1)-i][py-1].type == "ship"||matrix[(px+1)-i][py+1].type == "ship"){
-					check = false
-				}
-			}
-		}
-
-		if(px != 10 && py == 10){
-			for(let i = 0; i < size+2; i++){
-				if(matrix[(px+1)-i][py].type == "ship" || matrix[(px+1)-i][py-1].type == "ship"){
-					check = false
-				}
-			}
-		}
-		if(px != 10 && py == 1){
-			for(let i = 0; i < size+2; i++){
-				if(matrix[(px+1)-i][py].type == "ship" ||matrix[(px+1)-i][py+1].type == "ship"){
-					check = false
-				}
-			}
-		}
-	}
-	if(px === 10){
-		if(py !=10 && py != 1){
-			for(let i = 0; i < size+1; i++){
-				if(matrix[px-i][py].type == "ship"||matrix[px-i][py-1].type == "ship"||matrix[px-i][py+1].type == "ship"){
-					check = false
-				}
-			}
-		}
-		if(py == 10){
-			for(let i = 0; i < size+1; i++){
-				if(matrix[px-i][py].type == "ship"||matrix[px-i][py-1].type == "ship"){
-					check = false
-				}
-			}
-		}
-		if(py == 1){
-			for(let i = 0; i < size+1; i++){
-				if(matrix[px-i][py].type == "ship"||matrix[px-i][py+1].type == "ship"){
-					check = false
-				}
-			}
-		}
-	}
-	if(px === 1){
-		if(py !=10 && py != 1){
-			for(let i = 0; i < size+1; i++){
-				if(matrix[px+i][py].type == "ship"||matrix[px+i][py-1].type == "ship"||matrix[px+i][py+1].type == "ship"){
-					check = false
-				}
-			}
-		}
-		if(py == 10){
-			for(let i = 0; i < size+1; i++){
-				if(matrix[px+i][py].type == "ship"||matrix[px+i][py-1].type == "ship"){
-					check = false
-				}
-			}
-		}
-		if(py == 1){
-			for(let i = 0; i < size+1; i++){
-				if(matrix[px+i][py].type == "ship"||matrix[px+i][py+1].type == "ship"){
-					check = false
-				}
-			}
-		}
-	}
-}
-if(dir === 1){
-	if((py + size) < 10){
-		if(py != 1 && px != 10 && px != 1){
-			for(let i = 0; i < size+2; i++){
-				if(matrix[px][(py-1)+i].type == "ship"||matrix[px-1][(py-1)+i].type == "ship"||matrix[px+1][(py-1)+i].type == "ship"){
-					check = false
-				}
-			}
-		}
-		if(py != 1 && px === 10){
-			for(let i = 0; i < size+2; i++){
-				if(matrix[px][(py-1)+i].type == "ship"||matrix[px-1][(py-1)+i].type == "ship"){
-					check = false
-				}
-			}
-		}
-		if(py != 1 && px === 1){
-			for(let i = 0; i < size+2; i++){
-				if(matrix[px][(py-1)+i].type == "ship"||matrix[px+1][(py-1)+i].type == "ship"){
-					check = false
-				}
-			}
-		}
-	}
-	if((py + size) === 10){
-		if(py != 1 && px != 10 && px != 1){
-			for(let i = 0; i < size+2; i++){
-				if(matrix[px][(py-1)+i].type == "ship"||matrix[px-1][(py-1)+i].type == "ship"||matrix[px+1][(py-1)+i].type == "ship"){
-					check = false
-				}
-			}
-		}
-		if(py != 1 && px === 10){
-			for(let i = 0; i < size+2; i++){
-				if(matrix[px][(py-1)+i].type == "ship"||matrix[px-1][(py-1)+i].type == "ship"){
-					check = false
-				}
-			}
-		}
-		if(py != 1 && px === 1){
-			for(let i = 0; i < size+2; i++){
-				if(matrix[px][(py-1)+i].type == "ship"||matrix[px+1][(py-1)+i].type == "ship"){
-					check = false
-				}
-			}
-		}
-	}
-	if((py + size) > 10){
-		if(py != 10 && px != 10 && px != 1){
-			for(let i = 0; i < size+2; i++){
-				if(matrix[px][(py+1)-i].type == "ship"||matrix[px-1][(py+1)-i].type == "ship"||matrix[px+1][(py+1)-i].type == "ship"){
-					check = false
-				}
-			}
-		}
-		if(py != 10 && px === 10 ){
-			for(let i = 0; i < size+2; i++){
-				if(matrix[px][(py+1)-i].type == "ship"||matrix[px-1][(py+1)-i].type == "ship"){
-					check = false
-				}
-			}
-		}
-		if(py != 10 && px === 1){
-			for(let i = 0; i < size+2; i++){
-				if(matrix[px][(py+1)-i].type == "ship"|| matrix[px+1][(py+1)-i].type == "ship"){
-					check = false
-				}
-			}
-		}
+		matrix.push(arr)
 	}
 
-	if(py === 10){
-		if(px != 10 && px != 1){
-			for(let i = 0; i < size+1; i++){
-				if(matrix[px][py-i].type == "ship"||matrix[px-1][py-i].type == "ship"||matrix[px+1][py-i].type == "ship"){
-					check = false
+	for (let i = 0; i < matrix.length; i++){
+		matrix[i][0] = i;
+	}
+
+	for (let i = 0; i < matrix.length; i++){
+		matrix[0][i] = i;
+	}
+
+	var count 
+	function place (size) {
+	var px = Math.floor(Math.random()*10)+1
+	var py = Math.floor(Math.random()*10)+1
+	var check = true
+	var placed = false
+	var dir = Math.round(Math.random())
+
+	if(dir === 0){
+		if(px + size < 10){
+			if(px != 1 && py !=10 && py != 1){
+				for(let i = 0; i < size+2; i++){
+					if(matrix[(px-1)+i][py].type == "ship"||matrix[(px-1) + i][py-1].type == "ship"||matrix[(px-1) + i][py+1].type == "ship"){
+						check = false
+					}
+				}
+			}
+			if(px != 1 && py == 10){
+				for(let i = 0; i < size+2; i++){
+					if(matrix[(px-1) + i][py].type == "ship"||matrix[(px-1) + i][py-1].type == "ship"){
+						check = false
+					}
+				}
+			}
+			if(px != 1 && py == 1){
+				for(let i = 0; i < size+2; i++){
+					if(matrix[(px-1) + i][py].type == "ship"||matrix[(px-1) + i][py+1].type == "ship"){
+						check = false
+					}
 				}
 			}
 		}
-		if(px === 10 ){
-			for(let i = 0; i < size+1; i++){
-				if(matrix[px][py-i].type == "ship"||matrix[px-1][py-i].type == "ship"){
-					check = false
+		if(px + size === 10){
+			if(px != 1 && py !=10 && py != 1){
+				for(let i = 0; i < size+2; i++){
+					if(matrix[(px-1)+i][py].type == "ship"||matrix[(px-1)+i][py-1].type == "ship"||matrix[(px-1)+i][py+1].type == "ship"){
+						check = false
+					}
+				}
+			}
+			if(px != 1 && py == 10){
+				for(let i = 0; i < size+2; i++){
+					if(matrix[(px-1)+i][py].type == "ship"||matrix[(px-1)+i][py-1].type == "ship"){
+						check = false
+					}
+				}
+			}
+			if(px != 1 && py == 1){
+				for(let i = 0; i < size+1; i++){
+					if(matrix[(px-1) + i][py].type == "ship"||matrix[(px-1) + i][py+1].type == "ship"){
+						check = false
+					}
+				}
+			}
+		}
+		if(px + size > 10){
+			if(px != 10 && py != 10 && py != 1){
+				for(let i = 0; i < size+2; i++){
+					if(matrix[(px+1)-i][py].type == "ship" || matrix[(px+1)-i][py-1].type == "ship"||matrix[(px+1)-i][py+1].type == "ship"){
+						check = false
+					}
+				}
+			}
+
+			if(px != 10 && py == 10){
+				for(let i = 0; i < size+2; i++){
+					if(matrix[(px+1)-i][py].type == "ship" || matrix[(px+1)-i][py-1].type == "ship"){
+						check = false
+					}
+				}
+			}
+			if(px != 10 && py == 1){
+				for(let i = 0; i < size+2; i++){
+					if(matrix[(px+1)-i][py].type == "ship" ||matrix[(px+1)-i][py+1].type == "ship"){
+						check = false
+					}
+				}
+			}
+		}
+		if(px === 10){
+			if(py !=10 && py != 1){
+				for(let i = 0; i < size+1; i++){
+					if(matrix[px-i][py].type == "ship"||matrix[px-i][py-1].type == "ship"||matrix[px-i][py+1].type == "ship"){
+						check = false
+					}
+				}
+			}
+			if(py == 10){
+				for(let i = 0; i < size+1; i++){
+					if(matrix[px-i][py].type == "ship"||matrix[px-i][py-1].type == "ship"){
+						check = false
+					}
+				}
+			}
+			if(py == 1){
+				for(let i = 0; i < size+1; i++){
+					if(matrix[px-i][py].type == "ship"||matrix[px-i][py+1].type == "ship"){
+						check = false
+					}
 				}
 			}
 		}
 		if(px === 1){
-			for(let i = 0; i < size+1; i++){
-				if(matrix[px][py-i].type == "ship"||matrix[px+1][py-i].type == "ship"){
-					check = false
+			if(py !=10 && py != 1){
+				for(let i = 0; i < size+1; i++){
+					if(matrix[px+i][py].type == "ship"||matrix[px+i][py-1].type == "ship"||matrix[px+i][py+1].type == "ship"){
+						check = false
+					}
+				}
+			}
+			if(py == 10){
+				for(let i = 0; i < size+1; i++){
+					if(matrix[px+i][py].type == "ship"||matrix[px+i][py-1].type == "ship"){
+						check = false
+					}
+				}
+			}
+			if(py == 1){
+				for(let i = 0; i < size+1; i++){
+					if(matrix[px+i][py].type == "ship"||matrix[px+i][py+1].type == "ship"){
+						check = false
+					}
 				}
 			}
 		}
 	}
-	if(py === 1){
-		if(px != 10 && px != 1){
-			for(let i = 0; i < size+1; i++){
-				if(matrix[px][py+i].type == "ship"||matrix[px-1][py+i].type == "ship"||matrix[px+1][py+i].type == "ship"){
-					check = false
+	if(dir === 1){
+		if((py + size) < 10){
+			if(py != 1 && px != 10 && px != 1){
+				for(let i = 0; i < size+2; i++){
+					if(matrix[px][(py-1)+i].type == "ship"||matrix[px-1][(py-1)+i].type == "ship"||matrix[px+1][(py-1)+i].type == "ship"){
+						check = false
+					}
+				}
+			}
+			if(py != 1 && px === 10){
+				for(let i = 0; i < size+2; i++){
+					if(matrix[px][(py-1)+i].type == "ship"||matrix[px-1][(py-1)+i].type == "ship"){
+						check = false
+					}
+				}
+			}
+			if(py != 1 && px === 1){
+				for(let i = 0; i < size+2; i++){
+					if(matrix[px][(py-1)+i].type == "ship"||matrix[px+1][(py-1)+i].type == "ship"){
+						check = false
+					}
 				}
 			}
 		}
-		if(px == 10){
-			for(let i = 0; i < size+1; i++){
-				if(matrix[px][py+i].type == "ship"||matrix[px-1][py+i].type == "ship"){
-					check = false
+		if((py + size) === 10){
+			if(py != 1 && px != 10 && px != 1){
+				for(let i = 0; i < size+2; i++){
+					if(matrix[px][(py-1)+i].type == "ship"||matrix[px-1][(py-1)+i].type == "ship"||matrix[px+1][(py-1)+i].type == "ship"){
+						check = false
+					}
+				}
+			}
+			if(py != 1 && px === 10){
+				for(let i = 0; i < size+2; i++){
+					if(matrix[px][(py-1)+i].type == "ship"||matrix[px-1][(py-1)+i].type == "ship"){
+						check = false
+					}
+				}
+			}
+			if(py != 1 && px === 1){
+				for(let i = 0; i < size+2; i++){
+					if(matrix[px][(py-1)+i].type == "ship"||matrix[px+1][(py-1)+i].type == "ship"){
+						check = false
+					}
 				}
 			}
 		}
-		if(px == 1){
-			for(let i = 0; i < size+1; i++){
-				if(matrix[px][py+i].type == "ship"||matrix[px+1][py+i].type == "ship"){
-					check = false
+		if((py + size) > 10){
+			if(py != 10 && px != 10 && px != 1){
+				for(let i = 0; i < size+2; i++){
+					if(matrix[px][(py+1)-i].type == "ship"||matrix[px-1][(py+1)-i].type == "ship"||matrix[px+1][(py+1)-i].type == "ship"){
+						check = false
+					}
+				}
+			}
+			if(py != 10 && px === 10 ){
+				for(let i = 0; i < size+2; i++){
+					if(matrix[px][(py+1)-i].type == "ship"||matrix[px-1][(py+1)-i].type == "ship"){
+						check = false
+					}
+				}
+			}
+			if(py != 10 && px === 1){
+				for(let i = 0; i < size+2; i++){
+					if(matrix[px][(py+1)-i].type == "ship"|| matrix[px+1][(py+1)-i].type == "ship"){
+						check = false
+					}
+				}
+			}
+		}
+
+		if(py === 10){
+			if(px != 10 && px != 1){
+				for(let i = 0; i < size+1; i++){
+					if(matrix[px][py-i].type == "ship"||matrix[px-1][py-i].type == "ship"||matrix[px+1][py-i].type == "ship"){
+						check = false
+					}
+				}
+			}
+			if(px === 10 ){
+				for(let i = 0; i < size+1; i++){
+					if(matrix[px][py-i].type == "ship"||matrix[px-1][py-i].type == "ship"){
+						check = false
+					}
+				}
+			}
+			if(px === 1){
+				for(let i = 0; i < size+1; i++){
+					if(matrix[px][py-i].type == "ship"||matrix[px+1][py-i].type == "ship"){
+						check = false
+					}
+				}
+			}
+		}
+		if(py === 1){
+			if(px != 10 && px != 1){
+				for(let i = 0; i < size+1; i++){
+					if(matrix[px][py+i].type == "ship"||matrix[px-1][py+i].type == "ship"||matrix[px+1][py+i].type == "ship"){
+						check = false
+					}
+				}
+			}
+			if(px == 10){
+				for(let i = 0; i < size+1; i++){
+					if(matrix[px][py+i].type == "ship"||matrix[px-1][py+i].type == "ship"){
+						check = false
+					}
+				}
+			}
+			if(px == 1){
+				for(let i = 0; i < size+1; i++){
+					if(matrix[px][py+i].type == "ship"||matrix[px+1][py+i].type == "ship"){
+						check = false
+					}
 				}
 			}
 		}
 	}
+
+	console.log(check)
+
+	if(dir === 0){
+		if((px + size) <= 10 && px != 1){
+			if(py != 10 && py != 1 && check == true) {
+				var ship = new Ship()
+				ship.size = size
+				for(let i = 0; i <= size+1; i++){
+					matrix[(px-1)+i][py].type = "area"
+					ship.arr.push(matrix[(px-1)+i][py])
+					matrix[(px-1)+i][py-1].type = "area"
+					ship.arr.push(matrix[(px-1)+i][py-1])
+					matrix[(px-1)+i][py+1].type = "area"
+					ship.arr.push(matrix[(px-1)+i][py+1])
+				}
+				for(let i = 0; i < size; i++){
+					matrix[px+i][py].type = "ship"
+				}
+				ships.push(ship)
+				placed = true
+			}
+			if(py == 10  && check == true) {
+				var ship = new Ship()
+				ship.size = size
+				for(let i = 0; i <= size+1; i++){
+					matrix[(px-1)+i][py].type = "area"
+					ship.arr.push(matrix[(px-1)+i][py])
+					matrix[(px-1)+i][py-1].type = "area"
+					ship.arr.push(matrix[(px-1)+i][py-1])
+				}
+				for(let i = 0; i < size; i++){
+					matrix[px+i][py].type = "ship"
+				}
+				ships.push(ship)
+				placed = true
+			}
+			if(py == 1 && check == true) {
+				var ship = new Ship()
+				ship.size = size
+				for(let i = 0; i <= size+1; i++){
+					matrix[(px-1)+i][py].type = "area"
+					ship.arr.push(matrix[(px-1)+i][py])
+					matrix[(px-1)+i][py+1].type = "area"
+					ship.arr.push(matrix[(px-1)+i][py+1])
+				}
+				for(let i = 0; i < size; i++){
+					matrix[px+i][py].type = "ship"
+				}
+				ships.push(ship)
+				placed = true
+			}
+		}
+
+		if((px + size) > 10 && px != 10){
+			if(py != 10 && py != 1 && check == true){
+				var ship = new Ship()
+				ship.size = size
+				for(let i = 0; i <= size+1; i++){
+					matrix[(px+1)-i][py].type = "area"
+					ship.arr.push(matrix[(px+1)-i][py])
+					matrix[(px+1)-i][py-1].type = "area"
+					ship.arr.push(matrix[(px+1)-i][py-1])
+					matrix[(px+1)-i][py+1].type = "area"
+					ship.arr.push(matrix[(px+1)-i][py+1])
+				}
+				for(let i = 0; i < size; i++){
+					matrix[px-i][py].type = "ship"
+				}
+				ships.push(ship)
+				placed = true
+			}
+
+
+			if(py === 10  && check == true){
+				var ship = new Ship()
+				ship.size = size
+				for(let i = 0; i <= size+1; i++){
+					matrix[(px+1)-i][py].type = "area"
+					ship.arr.push(matrix[(px+1)-i][py])
+					matrix[(px+1)-i][py-1].type = "area"
+					ship.arr.push(matrix[(px+1)-i][py-1])
+				}
+				for(let i = 0; i < size; i++){
+					matrix[px-i][py].type = "ship"
+				}
+				ships.push(ship)
+				placed = true
+			}
+
+			if(py === 1 && check == true){
+				var ship = new Ship()
+				ship.size = size
+				for(let i = 0; i <= size+1; i++){
+					matrix[(px+1)-i][py].type = "area"
+					ship.arr.push(matrix[(px+1)-i][py])
+					matrix[(px+1)-i][py+1].type = "area"
+					ship.arr.push(matrix[(px+1)-i][py+1])
+				}
+				for(let i = 0; i < size; i++){
+					matrix[px-i][py].type = "ship"
+				}
+				ships.push(ship)
+				placed = true
+			}
+		}
+
+		if(px === 1){
+			if(px == 1 && py != 10 && py != 1 && check == true){
+				var ship = new Ship()
+				ship.size = size
+				for(let i = 0; i <= size; i++){
+					matrix[px+i][py].type = "area"
+					ship.arr.push(matrix[px+i][py])
+					matrix[px+i][py-1].type = "area"
+					ship.arr.push(matrix[px+i][py-1])
+					matrix[px+i][py+1].type = "area"
+					ship.arr.push(matrix[px+i][py+1])
+				}
+				for(let i = 0; i < size; i++){
+					matrix[px+i][py].type = "ship"
+				}
+				ships.push(ship)
+				placed = true
+			}
+			if(px == 1 && py == 10 && check == true){
+				var ship = new Ship()
+				ship.size = size
+				for(let i = 0 ; i <= size; i++){
+					matrix[px+i][py].type = "area"
+					ship.arr.push(matrix[px+i][py])
+					matrix[px+i][py-1].type = "area"
+					ship.arr.push(matrix[px+i][py-1])
+				}
+				for(let i = 0 ; i < size; i++){
+					matrix[px+i][py].type = "ship"
+				}
+				ships.push(ship)
+				placed = true
+			}
+
+			if(px == 1 && py == 1 && check == true){
+				var ship = new Ship()
+				ship.size = size
+				for(let i = 0 ; i <= size; i++){
+					matrix[px+i][py].type = "area"
+					ship.arr.push(matrix[px+i][py])
+					matrix[px+i][py+1].type = "area"
+					ship.arr.push(matrix[px+i][py+1])
+				}
+				for(let i = 0 ; i < size; i++){
+					matrix[px+i][py].type = "ship"
+				}
+				ships.push(ship)
+				placed = true
+			}
+		}
+
+		if(px === 10){
+			if(px == 10 && py != 10 && py != 1 && check == true){
+				var ship = new Ship()
+				ship.size = size
+				for(let i = 0; i <= size; i++){
+					matrix[px-i][py].type = "area"
+					ship.arr.push(matrix[px-i][py])
+					matrix[px-i][py-1].type = "area"
+					ship.arr.push(matrix[px-i][py-1])
+					matrix[px-i][py+1].type = "area"
+					ship.arr.push(matrix[px-i][py+1])
+				}
+				for(let i = 0; i < size; i++){
+					matrix[px-i][py].type = "ship"
+				}
+				ships.push(ship)
+				placed = true
+			}
+
+			if(px == 10 && py == 1 && check == true){
+				var ship = new Ship()
+				ship.size = size
+				for(let i = 0 ; i <= size; i++){
+					matrix[px-i][py].type = "area"
+					ship.arr.push(matrix[px-i][py])
+					matrix[px-i][py+1].type = "area"
+					ship.arr.push(matrix[px-i][py+1])
+				}
+				for(let i = 0 ; i < size; i++){
+					matrix[px-i][py].type = "ship"
+				}
+				ships.push(ship)
+				placed = true
+			}
+
+			if(px == 10 && py == 10 && check == true){
+				var ship = new Ship()
+				ship.size = size
+				for(let i = 0 ; i <= size; i++){
+					matrix[px-i][py].type = "area"
+					ship.arr.push(matrix[px-i][py])
+					matrix[px-i][py-1].type = "area"
+					ship.arr.push(matrix[px-i][py-1])
+				}
+				for(let i = 0 ; i < size; i++){
+					matrix[px-i][py].type = "ship"
+				}
+				ships.push(ship)
+				placed = true
+			}
+		}
+	}
+
+	if(dir === 1){
+		if((py + size) <= 10){
+			if(py != 1 && px != 10 && px != 1 && check == true) {
+				var ship = new Ship()
+				ship.size = size
+				for(let i = 0; i <= size+1; i++){
+					matrix[px][(py-1)+i].type = "area"
+					ship.arr.push(matrix[px][(py-1)+i])
+					matrix[px-1][(py-1)+i].type = "area"
+					ship.arr.push(matrix[px-1][(py-1)+i])
+					matrix[px+1][(py-1)+i].type = "area"
+					ship.arr.push(matrix[px+1][(py-1)+i])
+				}
+				for(let i = 0; i < size; i++){
+					matrix[px][py+i].type = "ship"
+				}
+				ships.push(ship)
+				placed = true
+			}
+
+			if(py != 1 && px == 10  && check == true) {
+				var ship = new Ship()
+				ship.size = size
+				for(let i = 0; i <= size+1; i++){
+					matrix[px][(py-1)+i].type = "area"
+					ship.arr.push(matrix[px][(py-1)+i])
+					matrix[px-1][(py-1)+i].type = "area"
+					ship.arr.push(matrix[px-1][(py-1)+i])
+				}
+				for(let i = 0; i < size; i++){
+					matrix[px][py+i].type = "ship"
+				}
+				ships.push(ship)
+				placed = true
+			}
+
+			if(py != 1 && px == 1 && check == true) {
+				var ship = new Ship()
+				ship.size = size
+				for(let i = 0; i <= size+1; i++){
+					matrix[px][(py-1)+i].type = "area"
+					ship.arr.push(matrix[px][(py-1)+i])
+					matrix[px+1][(py-1)+i].type = "area"
+					ship.arr.push(matrix[px+1][(py-1)+i])
+				}
+				for(let i = 0; i < size; i++){
+					matrix[px][py+i].type = "ship"
+				}
+				ships.push(ship)
+				placed = true
+			}
+		}
+
+		if((py + size) > 10){
+			if(py != 10 && px != 10 && px != 1 && check == true){
+				var ship = new Ship()
+				ship.size = size
+				for(let i = 0; i <= size+1; i++){
+					matrix[px][(py+1)-i].type = "area"
+					ship.arr.push(matrix[px][(py+1)-i])
+					matrix[px-1][(py+1)-i].type = "area"
+					ship.arr.push(matrix[px-1][(py+1)-i])
+					matrix[px+1][(py+1)-i].type = "area"
+					ship.arr.push(matrix[px+1][(py+1)-i])
+				}
+				for(let i = 0; i < size; i++){
+					matrix[px][py-i].type = "ship"
+				}
+				ships.push(ship)
+				placed = true
+			}
+			if(py != 10 && px == 10  && check == true){
+				var ship = new Ship()
+				ship.size = size
+				for(let i = 0; i <= size+1; i++){
+					matrix[px][(py+1)-i].type = "area"
+					ship.arr.push(matrix[px][(py+1)-i])
+					matrix[px-1][(py+1)-i].type = "area"
+					ship.arr.push(matrix[px-1][(py+1)-i])
+				}
+				for(let i = 0; i < size; i++){
+					matrix[px][py-i].type = "ship"
+				}
+				ships.push(ship)
+				placed = true
+			}
+			if(py != 10 && px == 1 && check == true){
+				var ship = new Ship()
+				ship.size = size
+				for(let i = 0; i <= size+1; i++){
+					matrix[px][(py+1)-i].type = "area"
+					ship.arr.push(matrix[px][(py+1)-i])
+					matrix[px+1][(py+1)-i].type = "area"
+					ship.arr.push(matrix[px+1][(py+1)-i])
+				}
+				for(let i = 0; i < size; i++){
+					matrix[px][py-i].type = "ship"
+				}
+				ships.push(ship)
+				placed = true
+			}
+		}
+		
+		if(py === 10){
+			if(py === 10 && px != 10 && px != 1 && check == true){
+				var ship = new Ship()
+				ship.size = size
+				for(let i = 0; i <= size; i++){
+					matrix[px][py-i].type = "area"
+					ship.arr.push(matrix[px][py-i])
+					matrix[px-1][py-i].type = "area"
+					ship.arr.push(matrix[px-1][py-i])
+					matrix[px+1][py-i].type = "area"
+					ship.arr.push(matrix[px+1][py-i])
+				}
+				for(let i = 0; i < size; i++){
+					matrix[px][py-i].type = "ship"
+				}
+				ships.push(ship)
+				placed = true
+			}
+			if(py === 10 && px === 10 && check == true){
+				var ship = new Ship()
+				ship.size = size
+				for(let i = 0 ; i <= size; i++){
+					matrix[px][py-i].type = "area"
+					ship.arr.push(matrix[px][py-i])
+					matrix[px-1][py-i].type = "area"
+					ship.arr.push(matrix[px-1][py-i])
+				}
+				for(let i = 0 ; i < size; i++){
+					matrix[px][py-i].type = "ship"
+				}
+				ships.push(ship)
+				placed = true
+			}
+			if(py === 10 && px === 1 && check == true){
+				var ship = new Ship()
+				ship.size = size
+				for(let i = 0 ; i <= size; i++){
+					matrix[px][py-i].type = "area"
+					ship.arr.push(matrix[px][py-i])
+					matrix[px+1][py-i].type = "area"
+					ship.arr.push(matrix[px+1][py-i])
+				}
+				for(let i = 0 ; i < size; i++){
+					matrix[px][py-i].type = "ship"
+				}
+				ships.push(ship)
+				placed = true
+			}
+		}
+		
+		if(py === 1){
+			if(py === 1 && px != 10 && px != 1 && check == true){
+				var ship = new Ship()
+				ship.size = size
+				for(let i = 0; i <= size; i++){
+					matrix[px][py+i].type = "area"
+					ship.arr.push(matrix[px][py+i])
+					matrix[px-1][py+i].type = "area"
+					ship.arr.push(matrix[px-1][py+i])
+					matrix[px+1][py+i].type = "area"
+					ship.arr.push(matrix[px+1][py+i])
+				}
+				for(let i = 0; i < size; i++){
+					matrix[px][py+i].type = "ship"
+				}
+				ships.push(ship)
+				placed = true
+			}
+			if(py === 1 && px === 10 && check == true){
+				var ship = new Ship()
+				ship.size = size
+				for(let i = 0 ; i <= size; i++){
+					matrix[px][py+i].type = "area"
+					ship.arr.push(matrix[px][py+i])
+					matrix[px-1][py+i].type = "area"
+					ship.arr.push(matrix[px-1][py+i])
+				}
+				for(let i = 0 ; i < size; i++){
+					matrix[px][py+i].type = "ship"
+				}
+				ships.push(ship)
+				placed = true
+			}
+			if(py === 1 && px === 1 && check == true){
+				var ship = new Ship()
+				ship.size = size
+				for(let i = 0 ; i <= size; i++){
+					matrix[px][py+i].type = "area"
+					ship.arr.push(matrix[px][py+i])
+					matrix[px+1][py+i].type = "area"
+					ship.arr.push(matrix[px+1][py+i])
+				}
+				for(let i = 0 ; i < size; i++){
+					matrix[px][py+i].type = "ship"
+				}
+				ships.push(ship)
+				placed = true
+				}
+			}	
+		}
+		if (placed == true){
+			count++
+		}
+	}
+
+	count = 0
+	while (count < 10){
+
+		if(count == 0){
+			var ship = new Ship()
+			place(4)
+		}if(count > 0 && count <= 2){
+			var ship = new Ship()
+			place(3)
+		}if(count > 2 && count <= 5){
+			var ship = new Ship()
+			place(2)
+		}if(count > 5 && count<= 9){
+			var ship = new Ship()
+			place(1)
+		}
+	}
+	console.log(ships)
+	return(matrix)
 }
 
-console.log(check)
-
-if(dir === 0){
-	if((px + size) <= 10 && px != 1){
-		if(py != 10 && py != 1 && check == true) {
-			var ship = new Ship()
-			ship.size = size
-			for(let i = 0; i <= size+1; i++){
-				matrix[(px-1)+i][py].type = "area"
-				ship.arr.push(matrix[(px-1)+i][py])
-				matrix[(px-1)+i][py-1].type = "area"
-				ship.arr.push(matrix[(px-1)+i][py-1])
-				matrix[(px-1)+i][py+1].type = "area"
-				ship.arr.push(matrix[(px-1)+i][py+1])
+function checkShips () {
+	for(let i = 0; i < ships.length; i++){
+		let c = 0
+		for(let j = 0; j < ships[i].arr.length; j++){
+			if(ships[i].arr[j].type === "shot"){
+				c++
 			}
-			for(let i = 0; i < size; i++){
-				matrix[px+i][py].type = "ship"
-			}
-			ships.push(ship)
-			placed = true
 		}
-		if(py == 10  && check == true) {
-			var ship = new Ship()
-			ship.size = size
-			for(let i = 0; i <= size+1; i++){
-				matrix[(px-1)+i][py].type = "area"
-				ship.arr.push(matrix[(px-1)+i][py])
-				matrix[(px-1)+i][py-1].type = "area"
-				ship.arr.push(matrix[(px-1)+i][py-1])
+		if(c == ships[i].size){
+			for(let j = 0; j < ships[i].arr.length; j++){
+				if(ships[i].arr[j].type == "area"){
+					ships[i].arr[j].type = "miss"
+				}
 			}
-			for(let i = 0; i < size; i++){
-				matrix[px+i][py].type = "ship"
-			}
-			ships.push(ship)
-			placed = true
-		}
-		if(py == 1 && check == true) {
-			var ship = new Ship()
-			ship.size = size
-			for(let i = 0; i <= size+1; i++){
-				matrix[(px-1)+i][py].type = "area"
-				ship.arr.push(matrix[(px-1)+i][py])
-				matrix[(px-1)+i][py+1].type = "area"
-				ship.arr.push(matrix[(px-1)+i][py+1])
-			}
-			for(let i = 0; i < size; i++){
-				matrix[px+i][py].type = "ship"
-			}
-			ships.push(ship)
-			placed = true
 		}
 	}
-
-	if((px + size) > 10 && px != 10){
-		if(py != 10 && py != 1 && check == true){
-			var ship = new Ship()
-			ship.size = size
-			for(let i = 0; i <= size+1; i++){
-				matrix[(px+1)-i][py].type = "area"
-				ship.arr.push(matrix[(px+1)-i][py])
-				matrix[(px+1)-i][py-1].type = "area"
-				ship.arr.push(matrix[(px+1)-i][py-1])
-				matrix[(px+1)-i][py+1].type = "area"
-				ship.arr.push(matrix[(px+1)-i][py+1])
-			}
-			for(let i = 0; i < size; i++){
-				matrix[px-i][py].type = "ship"
-			}
-			ships.push(ship)
-			placed = true
-		}
-
-
-		if(py === 10  && check == true){
-			var ship = new Ship()
-			ship.size = size
-			for(let i = 0; i <= size+1; i++){
-				matrix[(px+1)-i][py].type = "area"
-				ship.arr.push(matrix[(px+1)-i][py])
-				matrix[(px+1)-i][py-1].type = "area"
-				ship.arr.push(matrix[(px+1)-i][py-1])
-			}
-			for(let i = 0; i < size; i++){
-				matrix[px-i][py].type = "ship"
-			}
-			ships.push(ship)
-			placed = true
-		}
-
-		if(py === 1 && check == true){
-			var ship = new Ship()
-			ship.size = size
-			for(let i = 0; i <= size+1; i++){
-				matrix[(px+1)-i][py].type = "area"
-				ship.arr.push(matrix[(px+1)-i][py])
-				matrix[(px+1)-i][py+1].type = "area"
-				ship.arr.push(matrix[(px+1)-i][py+1])
-			}
-			for(let i = 0; i < size; i++){
-				matrix[px-i][py].type = "ship"
-			}
-			ships.push(ship)
-			placed = true
-		}
-	}
-
-	if(px === 1){
-		if(px == 1 && py != 10 && py != 1 && check == true){
-			var ship = new Ship()
-			ship.size = size
-			for(let i = 0; i <= size; i++){
-				matrix[px+i][py].type = "area"
-				ship.arr.push(matrix[px+i][py])
-				matrix[px+i][py-1].type = "area"
-				ship.arr.push(matrix[px+i][py-1])
-				matrix[px+i][py+1].type = "area"
-				ship.arr.push(matrix[px+i][py+1])
-			}
-			for(let i = 0; i < size; i++){
-				matrix[px+i][py].type = "ship"
-			}
-			ships.push(ship)
-			placed = true
-		}
-		if(px == 1 && py == 10 && check == true){
-			var ship = new Ship()
-			ship.size = size
-			for(let i = 0 ; i <= size; i++){
-				matrix[px+i][py].type = "area"
-				ship.arr.push(matrix[px+i][py])
-				matrix[px+i][py-1].type = "area"
-				ship.arr.push(matrix[px+i][py-1])
-			}
-			for(let i = 0 ; i < size; i++){
-				matrix[px+i][py].type = "ship"
-			}
-			ships.push(ship)
-			placed = true
-		}
-
-		if(px == 1 && py == 1 && check == true){
-			var ship = new Ship()
-			ship.size = size
-			for(let i = 0 ; i <= size; i++){
-				matrix[px+i][py].type = "area"
-				ship.arr.push(matrix[px+i][py])
-				matrix[px+i][py+1].type = "area"
-				ship.arr.push(matrix[px+i][py+1])
-			}
-			for(let i = 0 ; i < size; i++){
-				matrix[px+i][py].type = "ship"
-			}
-			ships.push(ship)
-			placed = true
-		}
-	}
-
-	if(px === 10){
-		if(px == 10 && py != 10 && py != 1 && check == true){
-			var ship = new Ship()
-			ship.size = size
-			for(let i = 0; i <= size; i++){
-				matrix[px-i][py].type = "area"
-				ship.arr.push(matrix[px-i][py])
-				matrix[px-i][py-1].type = "area"
-				ship.arr.push(matrix[px-i][py-1])
-				matrix[px-i][py+1].type = "area"
-				ship.arr.push(matrix[px-i][py+1])
-			}
-			for(let i = 0; i < size; i++){
-				matrix[px-i][py].type = "ship"
-			}
-			ships.push(ship)
-			placed = true
-		}
-
-		if(px == 10 && py == 1 && check == true){
-			var ship = new Ship()
-			ship.size = size
-			for(let i = 0 ; i <= size; i++){
-				matrix[px-i][py].type = "area"
-				ship.arr.push(matrix[px-i][py])
-				matrix[px-i][py+1].type = "area"
-				ship.arr.push(matrix[px-i][py+1])
-			}
-			for(let i = 0 ; i < size; i++){
-				matrix[px-i][py].type = "ship"
-			}
-			ships.push(ship)
-			placed = true
-		}
-
-		if(px == 10 && py == 10 && check == true){
-			var ship = new Ship()
-			ship.size = size
-			for(let i = 0 ; i <= size; i++){
-				matrix[px-i][py].type = "area"
-				ship.arr.push(matrix[px-i][py])
-				matrix[px-i][py-1].type = "area"
-				ship.arr.push(matrix[px-i][py-1])
-			}
-			for(let i = 0 ; i < size; i++){
-				matrix[px-i][py].type = "ship"
-			}
-			ships.push(ship)
-			placed = true
-		}
-	}
-}
-
-if(dir === 1){
-	if((py + size) <= 10){
-		if(py != 1 && px != 10 && px != 1 && check == true) {
-			var ship = new Ship()
-			ship.size = size
-			for(let i = 0; i <= size+1; i++){
-				matrix[px][(py-1)+i].type = "area"
-				ship.arr.push(matrix[px][(py-1)+i])
-				matrix[px-1][(py-1)+i].type = "area"
-				ship.arr.push(matrix[px-1][(py-1)+i])
-				matrix[px+1][(py-1)+i].type = "area"
-				ship.arr.push(matrix[px+1][(py-1)+i])
-			}
-			for(let i = 0; i < size; i++){
-				matrix[px][py+i].type = "ship"
-			}
-			ships.push(ship)
-			placed = true
-		}
-
-		if(py != 1 && px == 10  && check == true) {
-			var ship = new Ship()
-			ship.size = size
-			for(let i = 0; i <= size+1; i++){
-				matrix[px][(py-1)+i].type = "area"
-				ship.arr.push(matrix[px][(py-1)+i])
-				matrix[px-1][(py-1)+i].type = "area"
-				ship.arr.push(matrix[px-1][(py-1)+i])
-			}
-			for(let i = 0; i < size; i++){
-				matrix[px][py+i].type = "ship"
-			}
-			ships.push(ship)
-			placed = true
-		}
-
-		if(py != 1 && px == 1 && check == true) {
-			var ship = new Ship()
-			ship.size = size
-			for(let i = 0; i <= size+1; i++){
-				matrix[px][(py-1)+i].type = "area"
-				ship.arr.push(matrix[px][(py-1)+i])
-				matrix[px+1][(py-1)+i].type = "area"
-				ship.arr.push(matrix[px+1][(py-1)+i])
-			}
-			for(let i = 0; i < size; i++){
-				matrix[px][py+i].type = "ship"
-			}
-			ships.push(ship)
-			placed = true
-		}
-	}
-
-	if((py + size) > 10){
-		if(py != 10 && px != 10 && px != 1 && check == true){
-			var ship = new Ship()
-			ship.size = size
-			for(let i = 0; i <= size+1; i++){
-				matrix[px][(py+1)-i].type = "area"
-				ship.arr.push(matrix[px][(py+1)-i])
-				matrix[px-1][(py+1)-i].type = "area"
-				ship.arr.push(matrix[px-1][(py+1)-i])
-				matrix[px+1][(py+1)-i].type = "area"
-				ship.arr.push(matrix[px+1][(py+1)-i])
-			}
-			for(let i = 0; i < size; i++){
-				matrix[px][py-i].type = "ship"
-			}
-			ships.push(ship)
-			placed = true
-		}
-		if(py != 10 && px == 10  && check == true){
-			var ship = new Ship()
-			ship.size = size
-			for(let i = 0; i <= size+1; i++){
-				matrix[px][(py+1)-i].type = "area"
-				ship.arr.push(matrix[px][(py+1)-i])
-				matrix[px-1][(py+1)-i].type = "area"
-				ship.arr.push(matrix[px-1][(py+1)-i])
-			}
-			for(let i = 0; i < size; i++){
-				matrix[px][py-i].type = "ship"
-			}
-			ships.push(ship)
-			placed = true
-		}
-		if(py != 10 && px == 1 && check == true){
-			var ship = new Ship()
-			ship.size = size
-			for(let i = 0; i <= size+1; i++){
-				matrix[px][(py+1)-i].type = "area"
-				ship.arr.push(matrix[px][(py+1)-i])
-				matrix[px+1][(py+1)-i].type = "area"
-				ship.arr.push(matrix[px+1][(py+1)-i])
-			}
-			for(let i = 0; i < size; i++){
-				matrix[px][py-i].type = "ship"
-			}
-			ships.push(ship)
-			placed = true
-		}
-	}
-	
-	if(py === 10){
-		if(py === 10 && px != 10 && px != 1 && check == true){
-			var ship = new Ship()
-			ship.size = size
-			for(let i = 0; i <= size; i++){
-				matrix[px][py-i].type = "area"
-				ship.arr.push(matrix[px][py-i])
-				matrix[px-1][py-i].type = "area"
-				ship.arr.push(matrix[px-1][py-i])
-				matrix[px+1][py-i].type = "area"
-				ship.arr.push(matrix[px+1][py-i])
-			}
-			for(let i = 0; i < size; i++){
-				matrix[px][py-i].type = "ship"
-			}
-			ships.push(ship)
-			placed = true
-		}
-		if(py === 10 && px === 10 && check == true){
-			var ship = new Ship()
-			ship.size = size
-			for(let i = 0 ; i <= size; i++){
-				matrix[px][py-i].type = "area"
-				ship.arr.push(matrix[px][py-i])
-				matrix[px-1][py-i].type = "area"
-				ship.arr.push(matrix[px-1][py-i])
-			}
-			for(let i = 0 ; i < size; i++){
-				matrix[px][py-i].type = "ship"
-			}
-			ships.push(ship)
-			placed = true
-		}
-		if(py === 10 && px === 1 && check == true){
-			var ship = new Ship()
-			ship.size = size
-			for(let i = 0 ; i <= size; i++){
-				matrix[px][py-i].type = "area"
-				ship.arr.push(matrix[px][py-i])
-				matrix[px+1][py-i].type = "area"
-				ship.arr.push(matrix[px+1][py-i])
-			}
-			for(let i = 0 ; i < size; i++){
-				matrix[px][py-i].type = "ship"
-			}
-			ships.push(ship)
-			placed = true
-		}
-	}
-	
-	if(py === 1){
-		if(py === 1 && px != 10 && px != 1 && check == true){
-			var ship = new Ship()
-			ship.size = size
-			for(let i = 0; i <= size; i++){
-				matrix[px][py+i].type = "area"
-				ship.arr.push(matrix[px][py+i])
-				matrix[px-1][py+i].type = "area"
-				ship.arr.push(matrix[px-1][py+i])
-				matrix[px+1][py+i].type = "area"
-				ship.arr.push(matrix[px+1][py+i])
-			}
-			for(let i = 0; i < size; i++){
-				matrix[px][py+i].type = "ship"
-			}
-			ships.push(ship)
-			placed = true
-		}
-		if(py === 1 && px === 10 && check == true){
-			var ship = new Ship()
-			ship.size = size
-			for(let i = 0 ; i <= size; i++){
-				matrix[px][py+i].type = "area"
-				ship.arr.push(matrix[px][py+i])
-				matrix[px-1][py+i].type = "area"
-				ship.arr.push(matrix[px-1][py+i])
-			}
-			for(let i = 0 ; i < size; i++){
-				matrix[px][py+i].type = "ship"
-			}
-			ships.push(ship)
-			placed = true
-		}
-		if(py === 1 && px === 1 && check == true){
-			var ship = new Ship()
-			ship.size = size
-			for(let i = 0 ; i <= size; i++){
-				matrix[px][py+i].type = "area"
-				ship.arr.push(matrix[px][py+i])
-				matrix[px+1][py+i].type = "area"
-				ship.arr.push(matrix[px+1][py+i])
-			}
-			for(let i = 0 ; i < size; i++){
-				matrix[px][py+i].type = "ship"
-			}
-			ships.push(ship)
-			placed = true
-			}
-		}	
-	}
-	if (placed == true){
-		count++
-	}
-}
-
-count = 0
-while (count < 10){
-
-	if(count == 0){
-		var ship = new Ship()
-		place(4)
-	}if(count > 0 && count <= 2){
-		var ship = new Ship()
-		place(3)
-	}if(count > 2 && count <= 5){
-		var ship = new Ship()
-		place(2)
-	}if(count > 5 && count<= 9){
-		var ship = new Ship()
-		place(1)
-	}
-}
-console.log(ships)
-return(matrix)
 }
 
 var turn = 1
@@ -742,9 +760,6 @@ field1.matrix = mtx()
 console.log(field1)
 var field2 = new Field()
 field2.matrix = mtx()
-
-
-
 
 function draw (){
 	ctx.clearRect(0, 0, innerWidth, innerHeight)
@@ -888,4 +903,5 @@ canvas.onclick = function(event){
 			}		
 		}
 	}
+	checkShips()
 }
