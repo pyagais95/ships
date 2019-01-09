@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        .btn {
+            display: inline-block;
+            font-size: 24px;
+            font-weight: bold;
+            position: absolute;
+            left: 500px;
+            top: 300px;
+            color: rgba(255,255,255,.6);
+            text-shadow: 1px 1px rgba(0,0,0,.3);
+            text-decoration: none;
+            padding: 20px;
+            border-radius: 15px;
+            background: rgb(10,120,10);
+            box-shadow:
+                    inset 0 0 3px 1px rgba(0,0,0,.8),
+                    inset rgba(0,0,0,.3) -5px -5px 8px 5px,
+                    inset rgba(255,255,255,.5) 5px 5px 8px 5px,
+                    1px 1px 1px rgba(255,255,255,.1),
+                    -2px -2px 5px rgba(0,0,0,.5);
+            transition: .2s;
+        }
+        .loading{
+            position: absolute;
+            left: 40%;
+            top: 30%;
+            visibility: hidden;
+        }
+        .inscription{
+            position: relative;
+            right: 20px;
+        }
+    </style>
+
+</head>
+<body>
+
+<p><button id="createRoomButton" class="btn" onclick="createRoom(); style.display='none'; showLoad()">Create Game</button></p>
+
+<% if( waiters.length != 0) {%>
+<table id="waitersList">
+    <thead>
+    <th>List</th>
+    <th>btn</th>
+    </thead>
+    <tbody >
+    <% for (let i = 0; i < waiters.length; i++) { %>
+    <tr><td class="waiter"><%=waiters[i]%></td>
+        <td><button onclick="getWaiter(event)">join</button></td>
+    </tr>
+    <% } %>
+    </tbody>
+</table>
+<% } %>
+<div class="loading" id="load">
+    <h1><span class="inscription">Waiting for oponent</span></h1>
+    <img src="https://whatzup.com/content/viewer/web/images/loading.gif" alt="loaiding" width="30%" height="30%"/>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="ejs.js"></script>
+<script>
+
+  let socket = io();
+
+  function createRoom () {
+    socket.emit('createRoom')
+  }
+
+  function showLoad() {
+    document.getElementsByClassName('loading')[0].style.visibility = "visible";
+  }
+
+  function getWaiter(event) {
+    let currentWaiter = event.target.parentElement.previousElementSibling.innerText
+    socket.emit('join', currentWaiter)
+  }
+
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  document.body.appendChild(canvas);
+
+  function draw(socket, player1, player2) {
+    ctx.clearRect(0, 0, innerWidth, innerHeight)
+    ctx.fillStyle = 'black';
+    ctx.font = "italic 30pt Arial";
+    ctx.fillText('player 1', 100, 30);
+    ctx.fillText('player 2', 800, 30);
+    if(socket === player1){
+      let y = 50;
+      for (let i = 0; i < 11; i++) {
+        let x = 50;
+        for (let j = 0; j < 11; j++) {
+          if (field1.matrix[j][i].type === "sea") {
+            ctx.fillStyle = 'white';
+            ctx.fillRect(x, y, 50, 50);
+            ctx.strokeRect(x, y, 50, 50);
+            x = x + 50
+          } else if (field1.matrix[j][i].type === "area") {
+            ctx.fillStyle = 'white';
+            ctx.fillRect(x, y, 50, 50);
+            ctx.strokeRect(x, y, 50, 50);
+            x = x + 50
+
+          } else if (field1.matrix[j][i].type === "ship") {
+            ctx.fillStyle = '#e5761c';
+            ctx.fillRect(x, y, 50, 50);
+            ctx.strokeRect(x, y, 50, 50);
+            x = x + 50
+          } else if (typeof(field1.matrix[j][i]) === "number") {
+            ctx.fillStyle = 'black';
+            ctx.font = "italic 30pt Arial";
+            ctx.fillText(field1.matrix[j][i], x, y + 40);
+            ctx.strokeRect(x, y, 50, 50);
+            x = x + 50
+          } else if (field1.matrix[j][i].type === "shot") {
+            ctx.fillStyle = 'red';
+            ctx.fillRect(x, y, 50, 50);
+            ctx.strokeRect(x, y, 50, 50);
+            x = x + 50
+          } else if (field1.matrix[j][i].type === "miss") {
+            ctx.fillStyle = 'black';
+            ctx.fillRect(x + 20, y + 20, 10, 10);
+            ctx.strokeRect(x, y, 50, 50);
+            x = x + 50
+          }
+        }
+        y = y + 50
+      }
+      y = 50;
+      for (let i = 0; i < 11; i++) {
+        let x = 700;
+        for (let j = 0; j < 11; j++) {
+          if (field2.matrix[j][i].type === "sea") {
+            ctx.fillStyle = 'white';
+            ctx.fillRect(x, y, 50, 50);
+            ctx.strokeRect(x, y, 50, 50);
+            x = x + 50
+          } else if (field2.matrix[j][i].type === "area") {
+            ctx.fillStyle = 'white';
+            ctx.fillRect(x, y, 50, 50);
+            ctx.strokeRect(x, y, 50, 50);
+            x = x + 50
+
+          } else if (field2.matrix[j][i].type === "ship") {
+            ctx.fillStyle = 'white';
+            ctx.fillRect(x, y, 50, 50);
+            ctx.strokeRect(x, y, 50, 50);
+            x = x + 50
+          } else if (typeof(field2.matrix[j][i]) === "number") {
+            ctx.fillStyle = 'black';
+            ctx.font = "italic 30pt Arial";
+            ctx.fillText(field2.matrix[j][i], x, y + 40);
+            ctx.strokeRect(x, y, 50, 50);
+            x = x + 50
+          } else if (field2.matrix[j][i].type === "shot") {
+            ctx.fillStyle = 'red';
+            ctx.fillRect(x, y, 50, 50);
+            ctx.strokeRect(x, y, 50, 50);
+            x = x + 50
+          } else if (field2.matrix[j][i].type === "miss") {
+            ctx.fillStyle = 'black';
+            ctx.fillRect(x + 20, y + 20, 10, 10);
+            ctx.strokeRect(x, y, 50, 50);
+            x = x + 50
+          }
+        }
+        y = y + 50
+      }
+    }
+    if(socket === player2){
+      let y = 50;
+      for (let i = 0; i < 11; i++) {
+        let x = 50;
+        for (let j = 0; j < 11; j++) {
+          if (field1.matrix[j][i].type === "sea") {
+            ctx.fillStyle = 'white';
+            ctx.fillRect(x, y, 50, 50);
+            ctx.strokeRect(x, y, 50, 50);
+            x = x + 50
+          } else if (field1.matrix[j][i].type === "area") {
+            ctx.fillStyle = 'white';
+            ctx.fillRect(x, y, 50, 50);
+            ctx.strokeRect(x, y, 50, 50);
+            x = x + 50
+
+          } else if (field1.matrix[j][i].type === "ship") {
+            ctx.fillStyle = 'white';
+            ctx.fillRect(x, y, 50, 50);
+            ctx.strokeRect(x, y, 50, 50);
+            x = x + 50
+          } else if (typeof(field1.matrix[j][i]) === "number") {
+            ctx.fillStyle = 'black';
+            ctx.font = "italic 30pt Arial";
+            ctx.fillText(field1.matrix[j][i], x, y + 40);
+            ctx.strokeRect(x, y, 50, 50);
+            x = x + 50
+          } else if (field1.matrix[j][i].type === "shot") {
+            ctx.fillStyle = 'red';
+            ctx.fillRect(x, y, 50, 50);
+            ctx.strokeRect(x, y, 50, 50);
+            x = x + 50
+          } else if (field1.matrix[j][i].type === "miss") {
+            ctx.fillStyle = 'black';
+            ctx.fillRect(x + 20, y + 20, 10, 10);
+            ctx.strokeRect(x, y, 50, 50);
+            x = x + 50
+          }
+        }
+        y = y + 50
+      }
+      y = 50;
+      for (let i = 0; i < 11; i++) {
+        let x = 700;
+        for (let j = 0; j < 11; j++) {
+          if (field2.matrix[j][i].type === "sea") {
+            ctx.fillStyle = 'white';
+            ctx.fillRect(x, y, 50, 50);
+            ctx.strokeRect(x, y, 50, 50);
+            x = x + 50
+          } else if (field2.matrix[j][i].type === "area") {
+            ctx.fillStyle = 'white';
+            ctx.fillRect(x, y, 50, 50);
+            ctx.strokeRect(x, y, 50, 50);
+            x = x + 50
+
+          } else if (field2.matrix[j][i].type === "ship") {
+            ctx.fillStyle = '#e5761c';
+            ctx.fillRect(x, y, 50, 50);
+            ctx.strokeRect(x, y, 50, 50);
+            x = x + 50
+          } else if (typeof(field2.matrix[j][i]) === "number") {
+            ctx.fillStyle = 'black';
+            ctx.font = "italic 30pt Arial";
+            ctx.fillText(field2.matrix[j][i], x, y + 40);
+            ctx.strokeRect(x, y, 50, 50);
+            x = x + 50
+          } else if (field2.matrix[j][i].type === "shot") {
+            ctx.fillStyle = 'red';
+            ctx.fillRect(x, y, 50, 50);
+            ctx.strokeRect(x, y, 50, 50);
+            x = x + 50
+          } else if (field2.matrix[j][i].type === "miss") {
+            ctx.fillStyle = 'black';
+            ctx.fillRect(x + 20, y + 20, 10, 10);
+            ctx.strokeRect(x, y, 50, 50);
+            x = x + 50
+          }
+        }
+        y = y + 50
+      }
+    }
+  }
+
+  let field1;
+  let field2;
+
+  socket.on('message', function (msg) {
+    if(document.getElementById("waitersList")){
+      document.getElementById("waitersList").innerHTML = '';
+    }
+
+    document.getElementsByClassName('loading')[0].style.display = 'none';
+    document.getElementById("createRoomButton").style.display='none';
+
+    let click = true;
+    let from = msg.search("split");
+    let to = msg.length - 1;
+
+    let f1 = msg.substring(0, from)
+    let f2 = msg.substring(from, to);
+    f2 = f2.slice(5, f2.length);
+
+    field1 = JSON.parse(f1);
+    field2 = JSON.parse(f2);
+
+    let player1 = field1.socket;
+    let player2 = field2.socket;
+
+    let turn = parseInt(msg[msg.length - 1]);
+
+    if(turn % 2 === 0 && socket.id === player2){
+      alert("player's 2 turn")
+    }
+
+    if(turn % 2 !== 0 && socket.id === player1){
+      alert("player's 1 turn")
+    }
+
+    if(turn === 5){
+      alert('player 1 is winner')
+    }
+
+    if(turn === 4){
+      alert('player 2 is winner')
+    }
+
+    draw(socket.id, player1, player2);
+
+    canvas.onclick = function (event) {
+      click = false;
+      let shot = 1;
+      var x = event.offsetX;
+      var y = event.offsetY;
+      x = Math.floor(x / 50);
+      y = Math.floor(y / 50);
+      console.log("x = " + x);
+      console.log("y = " + y);
+      let msg;
+
+      if (turn % 2 === 0 && (x - 1) > 0 && (y - 1) > 0 && socket.id === player2) {
+
+        if (field1.matrix[x - 1][y - 1].type === "ship") {
+          field1.matrix[x - 1][y - 1].type = "shot";
+          msg = JSON.stringify(field1.matrix[x - 1][y - 1]);
+          shot = 1;
+          click = true;
+          alert("ранен!");
+        }
+
+        if (field1.matrix[x - 1][y - 1].type !== "ship" && field1.matrix[x - 1][y - 1].type !== "shot" && field1.matrix[x - 1][y - 1].type !== "miss") {
+          field1.matrix[x - 1][y - 1].type = "miss";
+          msg = JSON.stringify(field1.matrix[x - 1][y - 1]);
+          shot = 2;
+          click = true;
+          alert("мимо!");
+        }
+      }
+
+      if (turn % 2 !== 0 && (x -14) > 0 && (y - 1) > 0 && socket.id === player1) {
+        if (field2.matrix[x - 14][y - 1].type === "ship") {
+          field2.matrix[x - 14][y - 1].type = "shot";
+          msg = JSON.stringify(field2.matrix[x - 14][y - 1])
+          shot = 1;
+          click = true;
+          alert("ранен!");
+        }
+
+        if (field2.matrix[x - 14][y - 1].type !== "ship" && field2.matrix[x - 14][y - 1].type !== "shot" && field2.matrix[x - 14][y - 1].type !== "miss") {
+          field2.matrix[x - 14][y - 1].type = "miss";
+          msg = JSON.stringify(field2.matrix[x - 14][y - 1]);
+          shot = 2;
+          click = true;
+          alert("мимо!");
+        }
+      }
+
+      msg = msg + JSON.stringify(shot)
+
+      if(click === true) {
+        console.log('click status is ' + click)
+        console.log(msg);
+        socket.emit('mes', msg);
+      }
+    };
+  });
+
+  socket.on('leave', function(msg){
+    alert(msg)
+  })
+
+</script>
+
+
+</body>
+</html>
+
