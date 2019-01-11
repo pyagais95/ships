@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!--suppress ALL -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -63,23 +64,23 @@
 </div>
 
 <script src="/socket.io/socket.io.js"></script>
-<script src="ejs.js"></script>
 <script>
 
   let socket = io();
 
-  function createRoom () {
+  let createRoom = () => {
     socket.emit('createRoom')
-  }
+  };
 
-  function showLoad() {
+  let showLoad = () => {
     document.getElementsByClassName('loading')[0].style.visibility = "visible";
-  }
+    document.getElementById("waitersList").innerHTML = '';
+  };
 
-  function getWaiter(event) {
+  let getWaiter = (event) => {
     let currentWaiter = event.target.parentElement.previousElementSibling.innerText
     socket.emit('join', currentWaiter)
-  }
+  };
 
   const canvas = document.createElement('canvas');
   const ctx = canvas.getContext('2d');
@@ -87,7 +88,7 @@
   canvas.height = window.innerHeight;
   document.body.appendChild(canvas);
 
-  function draw(socket, player1, player2) {
+  let draw = (socket, player1, player2) => {
     ctx.clearRect(0, 0, innerWidth, innerHeight)
     ctx.fillStyle = 'black';
     ctx.font = "italic 30pt Arial";
@@ -230,7 +231,6 @@
             ctx.fillRect(x, y, 50, 50);
             ctx.strokeRect(x, y, 50, 50);
             x = x + 50
-
           } else if (field2.matrix[j][i].type === "ship") {
             ctx.fillStyle = '#e5761c';
             ctx.fillRect(x, y, 50, 50);
@@ -257,34 +257,38 @@
         y = y + 50
       }
     }
-  }
+  };
 
   let field1;
   let field2;
 
-  socket.on('message', function (msg) {
+  socket.on('gameState', (msg) => {
     if(document.getElementById("waitersList")){
-      document.getElementById("waitersList").innerHTML = '';
+          document.getElementById("waitersList").innerHTML = '';
     }
 
     document.getElementsByClassName('loading')[0].style.display = 'none';
     document.getElementById("createRoomButton").style.display='none';
 
+    let message = JSON.parse(msg)
+
     let click = true;
-    let from = msg.search("split");
-    let to = msg.length - 1;
 
-    let f1 = msg.substring(0, from)
-    let f2 = msg.substring(from, to);
-    f2 = f2.slice(5, f2.length);
+    field1 = message.field1;
+    field2 = message.field2;
 
-    field1 = JSON.parse(f1);
-    field2 = JSON.parse(f2);
+    for (let i = 0; i <field1.matrix.length; i++) {
+      field1.matrix[i][0] = i;
+      field1.matrix[0][i] = i;
+      field2.matrix[i][0] = i;
+      field2.matrix[0][i] = i;
+    }
+
 
     let player1 = field1.socket;
     let player2 = field2.socket;
 
-    let turn = parseInt(msg[msg.length - 1]);
+    let turn = message.turn;
 
     if(turn % 2 === 0 && socket.id === player2){
       alert("player's 2 turn")
@@ -304,30 +308,32 @@
 
     draw(socket.id, player1, player2);
 
-    canvas.onclick = function (event) {
+    canvas.onclick = (event) => {
       click = false;
-      let shot = 1;
       var x = event.offsetX;
       var y = event.offsetY;
       x = Math.floor(x / 50);
       y = Math.floor(y / 50);
       console.log("x = " + x);
       console.log("y = " + y);
-      let msg;
+      let cell;
+      let shot;
+
+
 
       if (turn % 2 === 0 && (x - 1) > 0 && (y - 1) > 0 && socket.id === player2) {
 
         if (field1.matrix[x - 1][y - 1].type === "ship") {
           field1.matrix[x - 1][y - 1].type = "shot";
-          msg = JSON.stringify(field1.matrix[x - 1][y - 1]);
-          shot = 1;
+          cell = field1.matrix[x - 1][y - 1];
+          shot = 1
           click = true;
           alert("ранен!");
         }
 
         if (field1.matrix[x - 1][y - 1].type !== "ship" && field1.matrix[x - 1][y - 1].type !== "shot" && field1.matrix[x - 1][y - 1].type !== "miss") {
           field1.matrix[x - 1][y - 1].type = "miss";
-          msg = JSON.stringify(field1.matrix[x - 1][y - 1]);
+          cell = field1.matrix[x - 1][y - 1];
           shot = 2;
           click = true;
           alert("мимо!");
@@ -337,7 +343,7 @@
       if (turn % 2 !== 0 && (x -14) > 0 && (y - 1) > 0 && socket.id === player1) {
         if (field2.matrix[x - 14][y - 1].type === "ship") {
           field2.matrix[x - 14][y - 1].type = "shot";
-          msg = JSON.stringify(field2.matrix[x - 14][y - 1])
+          cell = field2.matrix[x - 14][y - 1];
           shot = 1;
           click = true;
           alert("ранен!");
@@ -345,24 +351,25 @@
 
         if (field2.matrix[x - 14][y - 1].type !== "ship" && field2.matrix[x - 14][y - 1].type !== "shot" && field2.matrix[x - 14][y - 1].type !== "miss") {
           field2.matrix[x - 14][y - 1].type = "miss";
-          msg = JSON.stringify(field2.matrix[x - 14][y - 1]);
+          cell = field2.matrix[x - 14][y - 1];
           shot = 2;
           click = true;
           alert("мимо!");
         }
       }
 
-      msg = msg + JSON.stringify(shot)
-
       if(click === true) {
-        console.log('click status is ' + click)
-        console.log(msg);
-        socket.emit('mes', msg);
+        console.log('click status is ' + click);
+        let data = {
+          cell: cell,
+          shot: shot
+        }
+        socket.emit('turn', JSON.stringify(data));
       }
     };
   });
 
-  socket.on('leave', function(msg){
+  socket.on('leave', (msg) => {
     alert(msg)
   })
 
