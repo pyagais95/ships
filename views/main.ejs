@@ -66,18 +66,18 @@
 <script src="/socket.io/socket.io.js"></script>
 <script>
 
-  let socket = io();
+  const socket = io();
 
-  let createRoom = () => {
+  const createRoom = () => {
     socket.emit('createRoom')
   };
 
-  let showLoad = () => {
+  const showLoad = () => {
     document.getElementsByClassName('loading')[0].style.visibility = "visible";
     document.getElementById("waitersList").innerHTML = '';
   };
 
-  let getWaiter = (event) => {
+  const getWaiter = (event) => {
     let currentWaiter = event.target.parentElement.previousElementSibling.innerText
     socket.emit('join', currentWaiter)
   };
@@ -88,7 +88,7 @@
   canvas.height = window.innerHeight;
   document.body.appendChild(canvas);
 
-  let draw = (socket, player1, player2) => {
+  const draw = (socket, player1, player2) => {
     ctx.clearRect(0, 0, innerWidth, innerHeight)
     ctx.fillStyle = 'black';
     ctx.font = "italic 30pt Arial";
@@ -262,7 +262,7 @@
   let field1;
   let field2;
 
-  socket.on('gameState', (msg) => {
+  socket.on('gameState', (data) => {
     if(document.getElementById("waitersList")){
           document.getElementById("waitersList").innerHTML = '';
     }
@@ -270,12 +270,12 @@
     document.getElementsByClassName('loading')[0].style.display = 'none';
     document.getElementById("createRoomButton").style.display='none';
 
-    let message = JSON.parse(msg)
+    let gameState = JSON.parse(data)
 
     let click = true;
 
-    field1 = message.field1;
-    field2 = message.field2;
+    field1 = gameState.field1;
+    field2 = gameState.field2;
 
     for (let i = 0; i <field1.matrix.length; i++) {
       field1.matrix[i][0] = i;
@@ -284,12 +284,10 @@
       field2.matrix[0][i] = i;
     }
 
-
     let player1 = field1.socket;
     let player2 = field2.socket;
-
-    let turn = message.turn;
-
+    let turn = gameState.turn;
+    
     if(turn % 2 === 0 && socket.id === player2){
       alert("player's 2 turn")
     }
