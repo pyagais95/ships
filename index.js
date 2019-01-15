@@ -2,12 +2,9 @@ const app = require('express')();
 const bodyParser = require('body-parser');
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
-const classes = require('./classes/classes');
 
-const Field = classes.Field;
-const Cell = classes.Cell;
-const Ship = classes.Ship;
-const Room = classes.Room;
+const Field = require('./classes/Field');
+const Room = require('./classes/Room');
 
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded());

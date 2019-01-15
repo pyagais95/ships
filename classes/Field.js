@@ -1,3 +1,5 @@
+const Cell = require('./Cell')
+const Ship = require('./Ship')
 class Field {
   constructor(matrix, ships, socket, count) {
     this.matrix;
@@ -691,65 +693,4 @@ class Field {
   };
 }
 
-class Cell {
-  constructor(type = "sea", posx = 0, posy = 0) {
-    this.type = type;
-    this.posx;
-    this.posy;
-  }
-}
-
-class Ship {
-  constructor(size, arr, inj) {
-    this.size;
-    this.arr = [];
-    this.inj = 0;
-  }
-}
-
-class Room{
-  constructor(player1, player2, field1, field2, count, turn){
-    this.player1;
-    this.player2;
-    this.field1;
-    this.field2;
-    this.count = 1;
-    this.turn = 3;
-  }
-
-  checkShips (array) {
-    for (let i = 0; i < array.length; i++) {
-      let c = 0;
-      for (let j = 0; j < array[i].arr.length; j++) {
-        if (array[i].arr[j].type === "shot") {
-          c++
-        }
-      }
-      if (c === array[i].size) {
-        for (let j = 0; j < array[i].arr.length; j++) {
-          if (array[i].arr[j].type === "area") {
-            array[i].arr[j].type = "miss"
-          }
-        }
-      }
-    }
-  };
-
-  compareCells (field, cell) {
-    for (let i = 0; i < field.length; i++) {
-      for (let j = 0; j < field[i].length; j++) {
-
-        if (field[i][j].posx === cell.posx && field[i][j].posy === cell.posy) {
-          field[i][j].type = cell.type;
-        }
-      }
-    }
-  };
-}
-
-module.exports = {
-  Field,
-  Cell,
-  Ship,
-  Room
-};
+module.exports = Field
